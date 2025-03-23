@@ -10,8 +10,8 @@ public class SocialMediaBackendMongoDbContext : AbpMongoDbContext
     /* Add mongo collections here. Example:
      * public IMongoCollection<Question> Questions => Collection<Question>();
      */
-    public IMongoCollection<Post>Posts =>Collection<Post>();
-    public IMongoCollection<PostComment> PostComments => Collection<PostComment>();
+    public IMongoCollection<Posts>Posts =>Collection<Posts>();
+  
     protected override void CreateModel(IMongoModelBuilder modelBuilder)
     {
         base.CreateModel(modelBuilder);
@@ -21,15 +21,10 @@ public class SocialMediaBackendMongoDbContext : AbpMongoDbContext
         //    //...
         //});
 
-        modelBuilder.Entity<Post>(b =>
+        modelBuilder.Entity<Posts>(b =>
         {
             b.CollectionName = SocialMediaBackendConsts.DbSchema + "Posts";
         });
-        modelBuilder.Entity<PostComment>(b =>
-        {
-            b.CollectionName = SocialMediaBackendConsts.DbSchema + "Comments";
-            
-        });
-
+       
     }
 }
