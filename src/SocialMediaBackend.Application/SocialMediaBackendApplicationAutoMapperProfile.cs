@@ -7,6 +7,7 @@ using Volo.Abp.AutoMapper;
 using SocialMediaBackend.SocialMedia;
 using AutoMapper.Configuration.Annotations;
 using Microsoft.Extensions.Configuration;
+using System.Collections;
 
 namespace SocialMediaBackend;
 
@@ -31,14 +32,15 @@ public class SocialMediaBackendApplicationAutoMapperProfile : Profile
           .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
           .ForMember(dest => dest.Review, opt => opt.MapFrom(src => src.Review))
           .ForMember(dest => dest.Stats, opt => opt.MapFrom(src => src.Status))
-          .ForMember(x => x.User, nameof(IdentityUser),
+          .ForMemberWithItemEntry(x => x.User, nameof(IdentityUser),
           (Posts src, IReadOnlyDictionary<Guid, IdentityUser> usersDict)
           => usersDict.GetValueOrDefaultBetter(src.CreatorId)
           );
 
+        //ForMemberWithItemEntry is the right method 
+        //i downloaded Bdaya.AutoMapper package to use this method     
 
 
-       
 
 
         CreateMap<PostRevieww, PostReview>()

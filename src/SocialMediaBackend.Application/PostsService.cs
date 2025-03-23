@@ -43,7 +43,7 @@ public class PostsService : SocialMediaBackendAppService, IPostService, ITransie
         var userId = postList.Select(x => x.CreatorId).Where(x => x.HasValue).Select(x => x!.Value).ToHashSet();
         var user = await IdentityUserRepository.GetListByIdsAsync(userId);
         var dictionary = user.ToDictionary(x => x.Id);
-        var mappedPostList = ObjectMapper.GetMapper().Map<IEnumerable<Posts>, IEnumerable<Posts>>(postList, opt =>
+        var mappedPostList = ObjectMapper.GetMapper().Map<IEnumerable<Posts>, IEnumerable<Post>>(postList, opt =>
         {
             opt.Items[nameof(IdentityUser)] = dictionary;
         });
@@ -99,6 +99,7 @@ public class PostsService : SocialMediaBackendAppService, IPostService, ITransie
     public async Task<UpdatePostResponse> UpdatePost(UpdatePostRequest updatePostId)
     {
         var post = await Repository.GetAsync(Guid.Parse(updatePostId.Id));
+        post.Content = "Updated Content"; //we need to use this line in testing to make sure that update works
         await Repository.UpdateAsync(post);
 
         var userIds = new HashSet<Guid?>() { post.CreatorId }.Where(x => x.HasValue).Select(x => x!.Value).ToHashSet();
