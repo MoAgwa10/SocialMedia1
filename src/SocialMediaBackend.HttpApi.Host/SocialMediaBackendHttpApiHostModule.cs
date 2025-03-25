@@ -31,6 +31,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
+using SocialMediaBackend.Controllers;
 
 namespace SocialMediaBackend;
 
@@ -61,6 +62,10 @@ public class SocialMediaBackendHttpApiHostModule : AbpModule
         ConfigureDistributedLocking(context, configuration);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+        context.Services.AddGrpc().AddJsonTranscoding();
+        context.Services.AddGrpcSwagger();
+        ConfigureSwaggerServices(context, configuration);
+
     }
 
     private void ConfigureCache(IConfiguration configuration)
@@ -215,5 +220,14 @@ public class SocialMediaBackendHttpApiHostModule : AbpModule
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
+        app.UseGrpcWeb(new()
+        {
+            DefaultEnabled = true
+        });
+        app.UseEndpoints(ep =>
+        {
+            ep.MapGrpcService<PostsGrpcController>();
+        });
+
     }
 }
