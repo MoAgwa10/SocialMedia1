@@ -52,6 +52,7 @@ namespace SocialMediaBackend.Samples
             var theReturnedPost = getPost.Result;
             theReturnedPost.Id.ShouldBe(Createdpost.Id);
             theReturnedPost.Content.ShouldBe(Createdpost.Content);
+            theReturnedPost.Images.ShouldBe(Createdpost.Images);
 
 
         }
@@ -134,7 +135,6 @@ namespace SocialMediaBackend.Samples
                 response.Result.User.Id.ShouldBe(targetUser.Id.ToString());
                 response.Result.User.Name.ShouldBe(targetUser.Name);
             }
-
             returnedPosts.Count.ShouldBe(5);
 
 
@@ -193,7 +193,7 @@ namespace SocialMediaBackend.Samples
             {
                 await AppService.UpdatePost(new UpdatePostRequest
                 {
-                    Id = Guid.NewGuid().ToString()  /*ID مش موجود*/
+                    Id = Guid.NewGuid().ToString()  /*مش موجود ID */
                 });
             }
             catch(Exception ex) 
@@ -223,7 +223,9 @@ namespace SocialMediaBackend.Samples
             post.User.Id.ShouldBe(targetUser.Id.ToString());
         }
 
-       
+
+        //sorry for delay ( ^_^)ノ M10
+
 
     }
 }
