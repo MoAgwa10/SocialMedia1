@@ -16,7 +16,7 @@ public class SocialMediaBackendApplicationAutoMapperProfile : Profile
     public SocialMediaBackendApplicationAutoMapperProfile()
     {
 
-        CreateMap<IdentityUser, UserInfo>()
+        CreateMap<Volo.Abp.Identity.IdentityUser, UserInfo>()
            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.UserName))
            .Ignore(dest => dest.ImageUrl);
@@ -32,8 +32,8 @@ public class SocialMediaBackendApplicationAutoMapperProfile : Profile
           .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
           .ForMember(dest => dest.Review, opt => opt.MapFrom(src => src.Review))
           .ForMember(dest => dest.Stats, opt => opt.MapFrom(src => src.Status))
-          .ForMemberWithItemEntry(x => x.User, nameof(IdentityUser),
-          (Posts src, IReadOnlyDictionary<Guid, IdentityUser> usersDict)
+          .ForMemberWithItemEntry(x => x.User, nameof(Volo.Abp.Identity.IdentityUser),
+          (Posts src, IReadOnlyDictionary<Guid, Volo.Abp.Identity.IdentityUser> usersDict)
           => usersDict.GetValueOrDefaultBetter(src.CreatorId)
           );
 

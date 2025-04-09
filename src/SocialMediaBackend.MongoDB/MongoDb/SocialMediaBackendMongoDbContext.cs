@@ -24,6 +24,7 @@ public class SocialMediaBackendMongoDbContext : AbpMongoDbContext
         modelBuilder.Entity<Posts>(b =>
         {
             b.CollectionName = SocialMediaBackendConsts.DbSchema + "Posts";
+            b.BsonMap.ConfigureAbpConventions();
         });
        
     }

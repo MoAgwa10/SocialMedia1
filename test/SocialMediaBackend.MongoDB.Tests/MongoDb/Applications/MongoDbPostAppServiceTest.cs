@@ -5,7 +5,7 @@ using Xunit;
 namespace SocialMediaBackend.MongoDb.Applications;
 
 [Collection(SocialMediaBackendTestConsts.CollectionDefinitionName)]
-public class MongoDBSampleAppServiceTests : SampleAppServiceTests<SocialMediaBackendMongoDbTestModule>
+public class MongoDBSampleAppServiceTests : PostAppServiceTest<SocialMediaBackendMongoDbTestModule>
 {
 
 }
