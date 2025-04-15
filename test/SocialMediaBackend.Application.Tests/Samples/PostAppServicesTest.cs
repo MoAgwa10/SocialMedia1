@@ -158,26 +158,29 @@ namespace SocialMediaBackend.Samples
         [Fact]
         public async Task EnsureCreatePost_WithoutLogin_ShouldThrowException()
         {
-            // i dont Know The login status because im testing the status where the user posts without Login
-
-            
             string? errorMessage = null;
 
             try
             {
+                
                 await AppService.CreatePost(new CreatePostRequest());
             }
-            catch (Exception ex)
+            catch (UnauthorizedAccessException ex)
             {
                 
                 errorMessage = ex.Message;
-                Console.WriteLine($"ERROR CreatePost failed without login: {errorMessage}");
+                Console.WriteLine($"ERROR: CreatePost failed due to unauthorized access: {errorMessage}");
+            }
+            catch (Exception ex)
+            {
+              
+                errorMessage = ex.Message;
+                Console.WriteLine($"ERROR: CreatePost failed with a different error: {errorMessage}");
             }
 
-           
+          
             errorMessage.ShouldNotBeNullOrWhiteSpace();
         }
-
 
         [Fact]
         public async Task EnsureUpdatePostWithInvalidId_ShouldThrowException()

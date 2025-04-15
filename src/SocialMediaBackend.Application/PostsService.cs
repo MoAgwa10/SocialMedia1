@@ -20,10 +20,11 @@ public class PostsService : SocialMediaBackendAppService, IPostService, ITransie
     public IRepository<Posts, Guid> Repository { get; }
     public IIdentityUserRepository IdentityUserRepository { get; }
 
-    public PostsService(IRepository<Posts, Guid> repository, IIdentityUserRepository identityUserRepository)
+    public PostsService(IRepository<Posts, Guid> repository, IIdentityUserRepository identityUserRepository )
     {
         Repository = repository;
         IdentityUserRepository = identityUserRepository;
+       
     }
 
     public async Task<ListPostsResponse> ListPosts(ListPostsRequest postsRequest)
@@ -75,6 +76,9 @@ public class PostsService : SocialMediaBackendAppService, IPostService, ITransie
 
     public async Task<CreatePostResponse> CreatePost(CreatePostRequest post)
     {
+        if (CurrentUser?.Id == null)
+            throw new UnauthorizedAccessException("User must be logged in to create a post.");
+
         List<Images> imageList = new List<Images>() 
         {
             new Images(GuidGenerator.Create(), "FirstImage", 3.5f, 2.2f, "Url")
